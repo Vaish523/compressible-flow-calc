@@ -21,11 +21,8 @@ class Equations:
         mu = 180 / math.pi * math.asin(1/M)
         return mu
     
-    def interpolateTheta(theta, numLines):
-        hold = theta - (1 + math.fmod(theta, 1))
-        #print("hold", hold)
-        deltaTheta = hold / (numLines - 2)
-        #print("deltaTheta", deltaTheta)
+    def interpolateTheta(theta_start, theta, numLines):
+        deltaTheta = (theta - theta_start) / (numLines - 2)
         thetas = [0]
         for index in range(numLines - 2):
             thetas.append(thetas[index] + deltaTheta)

@@ -23,7 +23,7 @@ nu_e = equations.getPMAngle(M_e, gamma)
 max_theta = nu_e / 2
 points = []
 print(max_theta)
-thetaInterpolation = equations.interpolateTheta(max_theta, numLines)
+thetaInterpolation = equations.interpolateTheta(initialFlowAngle, max_theta, numLines)
 print(thetaInterpolation)
 
 j = 1 + numLines
