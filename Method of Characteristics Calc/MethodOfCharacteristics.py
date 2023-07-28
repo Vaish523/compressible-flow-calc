@@ -1,21 +1,22 @@
 # Author: Vaishnav Srivaths (vsrivat@purdue.edu)
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 from equations import Equations
 from rocketengine import rocketEngine
 from charPoint import charPoint
 equations = Equations
 
 ## INPUTS ##
-numLines = 14
+numLines = 6
 numPoints = int(numLines + numLines * (numLines + 1) / 2)
 gamma = 1.4
 R = 287 # J/kgK
 P_e = 101.325 * 10 ** 3 # kPa
-P_c = 1/0.1278 * P_e # kPa
+P_c = 1/ 0.01445 * P_e # kPa
 T_c = 1000 # K
-r_t = 0.0254 # m
-initialFlowAngle = 0.19 # deg
+r_t = 1 # m
+initialFlowAngle = 3 # deg
 
 engine = rocketEngine(P_c, T_c, P_e, gamma, R, r_t, numPoints, numLines)
 M_e = engine.getMachExit(engine.P_c, engine.P_e, engine.gamma)
@@ -257,3 +258,7 @@ data = np.asarray([pointNumbers,
 print(data)
 
 np.savetxt('EnginePoints.csv', data, delimiter=',')
+plt.scatter(x_points, y_points)
+plt.xlim(0, max(x_points))
+plt.ylim(0, max(x_points))
+plt.show()
