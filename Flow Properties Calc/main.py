@@ -4,10 +4,19 @@ import math
 import sympy
 from sympy.abc import x
 import numpy
+from isentropic import Isentropic
+from normalShock import NormalShock
+from fanno import Fanno
+#from rayleigh import Rayleigh
+
+isentropic = Isentropic
+normalShock = NormalShock
+fanno = Fanno
+#rayleigh = Rayleigh
 
 gamma = float(input("Ratio of specific heats: ")) # ratio of specific heats
 
-print('\nHere are the following relations:\n1. Isentropic Flow Relations\n2. Normal Shock Relations\n3. Oblique Shock Relations\n4. Conical Shock Relations\n5. Fanno Flow Relations\n6. Rayleigh Flow Relations')
+print('\nHere are the following relations:\n1. Isentropic Flow Relations\n2. Normal Shock Relations\n3. Oblique Shock Relations\n4. Fanno Flow Relations\n5. Rayleigh Flow Relations')
 relation = int(input("\nWhich relation would you like to calculate properties for? Enter a number: "))
 
 if relation == 1:
@@ -16,88 +25,87 @@ if relation == 1:
 
     if choice == 1:
         M = float(input("Mach number = "))
-        p_p0 = (1 + (gamma - 1) / 2 * M ** 2) ** (gamma / (1 - gamma))
+        p_p0 = isentropic.getP_P0(M, gamma)
         print("p/p0 = ", p_p0)
-        t_t0 = (1 + (gamma - 1) / 2 * M ** 2) ** (-1)
+        t_t0 = isentropic.getT_T0(M, gamma)
         print("T/T0 = ", t_t0)
-        rho_rho0 = (1 + (gamma - 1) / 2 * M ** 2) ** (1 / (1 - gamma))
+        rho_rho0 = isentropic.getRho_Rho0(M, gamma)
         print("rho/rho0 = ", rho_rho0)
-        alpha = math.asin(1 / M) * 180 / math.pi
+        alpha = isentropic.getAlpha(M)
         print("Mach angle (degrees) = ", alpha)
-        nu = 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) + math.atan(math.sqrt(M ** 2 - 1)))
+        nu = isentropic.getNu(M, gamma)
         print("Prandtl-Meyer angle (degrees) = ", nu)
-        A_Astar = 1 / M * ((1 + (gamma - 1) / 2 * M ** 2) / (1 + (gamma - 1) / 2)) ** ((gamma + 1) / (2 * (gamma - 1)))
+        A_Astar = isentropic.getA_Astar(M, gamma)
         print("A/A* = ", A_Astar)
     if choice == 2:
         t_t0 = float(input("T/T0 = "))
-        M = math.sqrt((2 * (1/t_t0 - 1)) / (gamma - 1))
+        M = isentropic.getMfromTR(t_t0, gamma)
         print("Mach number = ", M)
-        p_p0 = t_t0 ** (gamma / (gamma - 1))
+        p_p0 = isentropic.getP_P0(M, gamma)
         print("p/p0 = ", p_p0)
-        rho_rho0 = t_t0 ** (1 / (gamma - 1))
+        rho_rho0 = isentropic.getRho_Rho0(M, gamma)
         print("rho/rho0 = ", rho_rho0)
-        alpha = math.asin(1 / M) * 180 / math.pi
+        alpha = isentropic.getAlpha(M)
         print("Mach angle (degrees) = ", alpha)
-        nu = 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) + math.atan(math.sqrt(M ** 2 - 1)))
+        nu = isentropic.getNu(M, gamma)
         print("Prandtl-Meyer angle (degrees) = ", nu)
-        A_Astar = 1 / M * ((1 + (gamma - 1) / 2 * M ** 2) / (1 + (gamma - 1) / 2)) ** ((gamma + 1) / (2 * (gamma - 1)))
+        A_Astar = isentropic.getA_Astar(M, gamma)
         print("A/A* = ", A_Astar)
     if choice == 3:
         p_p0 = float(input("p/p0 = "))
-        M = math.sqrt((2 * (p_p0 ** (1 / gamma - 1) - 1)) / (gamma - 1))
+        M = isentropic.getMfromPR(p_p0, gamma)
         print("Mach number = ", M)
-        t_t0 = p_p0 ** ((gamma - 1)/ gamma)
+        t_t0 = isentropic.getT_T0(M, gamma)
         print("T/T0 = ", t_t0)
-        rho_rho0 = p_p0 ** (1 / gamma)
+        rho_rho0 = isentropic.getRho_Rho0(M, gamma)
         print("rho/rho0 = ", rho_rho0)
-        alpha = math.asin(1 / M) * 180 / math.pi
+        alpha = isentropic.getAlpha(M)
         print("Mach angle (degrees) = ", alpha)
-        nu = 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) + math.atan(math.sqrt(M ** 2 - 1)))
+        nu = isentropic.getNu(M, gamma)
         print("Prandtl-Meyer angle (degrees) = ", nu)
-        A_Astar = 1 / M * ((1 + (gamma - 1) / 2 * M ** 2) / (1 + (gamma - 1) / 2)) ** ((gamma + 1) / (2 * (gamma - 1)))
+        A_Astar = isentropic.getA_Astar(M, gamma)
         print("A/A* = ", A_Astar)
     if choice == 4:
         rho_rho0 = float(input("rho/rho0 = "))
-        M = math.sqrt((2 * (rho_rho0 ** (1 - gamma) - 1)) / (gamma - 1))
+        M = isentropic.getMfromDR(rho_rho0, gamma)
         print("Mach number = ", M)
-        p_p0 = (1 + (gamma - 1) / 2 * M ** 2) ** (gamma / (1 - gamma))
+        p_p0 = isentropic.getMfromPR(M, gamma)
         print("p/p0 = ", p_p0)
-        t_t0 = p_p0 ** ((gamma - 1)/ gamma)
+        t_t0 = isentropic.getT_T0(M, gamma)
         print("T/T0 = ", t_t0)
-        alpha = math.asin(1 / M) * 180 / math.pi
+        alpha = isentropic.getAlpha(M)
         print("Mach angle (degrees) = ", alpha)
-        nu = 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) + math.atan(math.sqrt(M ** 2 - 1)))
+        nu = isentropic.getNu(M, gamma)
         print("Prandtl-Meyer angle (degrees) = ", nu)
-        A_Astar = 1 / M * ((1 + (gamma - 1) / 2 * M ** 2) / (1 + (gamma - 1) / 2)) ** ((gamma + 1) / (2 * (gamma - 1)))
+        A_Astar = isentropic.getA_Astar(M, gamma)
         print("A/A* = ", A_Astar)
     if choice == 7: 
         alpha = float(input("Mach angle (degrees) = "))
-        M =  1 / math.sin(alpha * math.pi / 180)
+        M =  isentropic.getMfromAlpha(alpha, gamma)
         print("Mach number = ", M)
-        p_p0 = (1 + (gamma - 1) / 2 * M ** 2) ** (gamma / (1 - gamma))
+        p_p0 = isentropic.getMfromPR(M, gamma)
         print("p/p0 = ", p_p0)
-        t_t0 = (1 + (gamma - 1) / 2 * M ** 2) ** (-1)
+        t_t0 = isentropic.getT_T0(M, gamma)
         print("T/T0 = ", t_t0)
-        rho_rho0 = (1 + (gamma - 1) / 2 * M ** 2) ** (1 / (1 - gamma))
+        rho_rho0 = isentropic.getRho_Rho0(M, gamma)
         print("rho/rho0 = ", rho_rho0)
-        nu = 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) + math.atan(math.sqrt(M ** 2 - 1)))
+        nu = isentropic.getNu(M, gamma)
         print("Prandtl-Meyer angle (degrees) = ", nu)
-        A_Astar = 1 / M * ((1 + (gamma - 1) / 2 * M ** 2) / (1 + (gamma - 1) / 2)) ** ((gamma + 1) / (2 * (gamma - 1)))
+        A_Astar = isentropic.getA_Astar(M, gamma)
         print("A/A* = ", A_Astar)
     if choice == 8:
         nu = float(input("Prandtl-Meyer angle (degrees) = "))
-        M_sols = sympy.solve(nu - 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (x ** 2 - 1))) + math.atan(math.sqrt(x ** 2 - 1))), "x")
-        M = M_sols[1]
+        M = isentropic.getMfromNu(nu, gamma)
         print("Mach number = ", M)
-        p_p0 = (1 + (gamma - 1) / 2 * M ** 2) ** (gamma / (1 - gamma))
+        p_p0 = isentropic.getMfromPR(M, gamma)
         print("p/p0 = ", p_p0)
-        t_t0 = (1 + (gamma - 1) / 2 * M ** 2) ** (-1)
+        t_t0 = isentropic.getT_T0(M, gamma)
         print("T/T0 = ", t_t0)
-        rho_rho0 = (1 + (gamma - 1) / 2 * M ** 2) ** (1 / (1 - gamma))
+        rho_rho0 = isentropic.getRho_Rho0(M, gamma)
         print("rho/rho0 = ", rho_rho0)
-        alpha = math.asin(1 / M) * 180 / math.pi
+        alpha = isentropic.getAlpha(M)
         print("Mach angle (degrees) = ", alpha)
-        A_Astar = 1 / M * ((1 + (gamma - 1) / 2 * M ** 2) / (1 + (gamma - 1) / 2)) ** ((gamma + 1) / (2 * (gamma - 1)))
+        A_Astar = isentropic.getA_Astar(M, gamma)
         print("A/A* = ", A_Astar)
 
 if relation == 2:
@@ -106,76 +114,88 @@ if relation == 2:
 
     if choice == 1:
         M1 = float(input("M1 = "))
-        M2 = math.sqrt( ((gamma - 1) * M1 ** 2 + 2) / (2 * gamma * M1 ** 2 - (gamma - 1)) )
+        M2 = normalShock.getM2(M1, gamma)
         print("M2 = ", M2)
-        p2_p1 = (2 * gamma * M1 ** 2 - (gamma - 1)) / (gamma + 1)
+        p2_p1 = normalShock.getP2_P1(M1, gamma)
         print("P2/P1 = ", p2_p1)
-        rho2_rho1 = ((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)
+        rho2_rho1 = normalShock.getRho2_Rho1(M1, gamma)
         print("rho2/rho1 = ", rho2_rho1)
-        t2_t1 = ((2 * gamma * M1 ** 2 - (gamma - 1)) * ((gamma - 1) * M1 ** 2 + 2)) / ((gamma + 1) ** 2 * M1 ** 2)
+        t2_t1 = normalShock.getT2_T1(M1, gamma)
         print("T2/T1 = ", t2_t1)
-        p02_p01 = ((((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)) ** (gamma / (gamma - 1))) * (((gamma + 1) / (2 * gamma * M1 ** 2 - (gamma - 1))) ** (1 / (gamma - 1)))
+        p02_p01 = normalShock.getP02_P01(M1, gamma)
         print("P02/P01 = ", p02_p01)
     if choice == 2:
         M2 = float(input("M2 = "))
-        M1 = math.sqrt( ((gamma - 1) * M2 ** 2 + 2) / (2 * gamma * M2 ** 2 - (gamma - 1)) )
+        M1 = normalShock.getM1fromM2(M2, gamma)
         print("M1 = ", M1)
-        p2_p1 = (2 * gamma * M1 ** 2 - (gamma - 1)) / (gamma + 1)
+        p2_p1 = normalShock.getP2_P1(M1, gamma)
         print("P2/P1 = ", p2_p1)
-        rho2_rho1 = ((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)
+        rho2_rho1 = normalShock.getRho2_Rho1(M1, gamma)
         print("rho2/rho1 = ", rho2_rho1)
-        t2_t1 = ((2 * gamma * M1 ** 2 - (gamma - 1)) * ((gamma - 1) * M1 ** 2 + 2)) / ((gamma + 1) ** 2 * M1 ** 2)
+        t2_t1 = normalShock.getT2_T1(M1, gamma)
         print("T2/T1 = ", t2_t1)
-        p02_p01 = ((((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)) ** (gamma / (gamma - 1))) * (((gamma + 1) / (2 * gamma * M1 ** 2 - (gamma - 1))) ** (1 / (gamma - 1)))
+        p02_p01 = normalShock.getP02_P01(M1, gamma)
         print("P02/P01 = ", p02_p01)
     if choice == 3:
         p2_p1 = float(input("P2/P1 = "))
-        M1 = math.sqrt((p2_p1 * (gamma + 1) + (gamma - 1)) / (2 * gamma))
+        M1 = normalShock.getM1fromPR(p2_p1, gamma)
         print("M1 = ", M1)
-        M2 = math.sqrt( ((gamma - 1) * M1 ** 2 + 2) / (2 * gamma * M1 ** 2 - (gamma - 1)) )
+        M2 = normalShock.getM2(M1, gamma)
         print("M2 = ", M2)
-        rho2_rho1 = ((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)
+        rho2_rho1 = normalShock.getRho2_Rho1(M1, gamma)
         print("rho2/rho1 = ", rho2_rho1)
-        t2_t1 = ((2 * gamma * M1 ** 2 - (gamma - 1)) * ((gamma - 1) * M1 ** 2 + 2)) / ((gamma + 1) ** 2 * M1 ** 2)
+        t2_t1 = normalShock.getT2_T1(M1, gamma)
         print("T2/T1 = ", t2_t1)
-        p02_p01 = ((((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)) ** (gamma / (gamma - 1))) * (((gamma + 1) / (2 * gamma * M1 ** 2 - (gamma - 1))) ** (1 / (gamma - 1)))
+        p02_p01 = normalShock.getP02_P01(M1, gamma)
         print("P02/P01 = ", p02_p01)
     if choice == 4:
         rho2_rho1 = float(input("rho2/rho1 = "))
-        M1 = math.sqrt((-2 * p2_p1) / (p2_p1 * (gamma - 1) - (gamma + 1)))
+        M1 = normalShock.getM1fromDR(rho2_rho1, gamma)
         print("M1 = ", M1)
-        M2 = math.sqrt( ((gamma - 1) * M1 ** 2 + 2) / (2 * gamma * M1 ** 2 - (gamma - 1)) )
+        M2 = normalShock.getM2(M1, gamma)
         print("M2 = ", M2)
-        p2_p1 = (2 * gamma * M1 ** 2 - (gamma - 1)) / (gamma + 1)
+        p2_p1 = normalShock.getP2_P1(M1, gamma)
         print("P2/P1 = ", p2_p1)
-        t2_t1 = ((2 * gamma * M1 ** 2 - (gamma - 1)) * ((gamma - 1) * M1 ** 2 + 2)) / ((gamma + 1) ** 2 * M1 ** 2)
+        t2_t1 = normalShock.getT2_T1(M1, gamma)
         print("T2/T1 = ", t2_t1)
-        p02_p01 = ((((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)) ** (gamma / (gamma - 1))) * (((gamma + 1) / (2 * gamma * M1 ** 2 - (gamma - 1))) ** (1 / (gamma - 1)))
+        p02_p01 = normalShock.getP02_P01(M1, gamma)
         print("P02/P01 = ", p02_p01)
     if choice == 5:
         t2_t1 = float(input("T2/T1 = "))
-        M1_sols = sympy.solve(t2_t1 - ((2 * gamma * x ** 2 - (gamma - 1)) * ((gamma - 1) * x ** 2 + 2)) / ((gamma + 1) ** 2 * x ** 2), "x")
-        M1 = M1_sols[1]
+        M1 = normalShock.getM1fromTR(t2_t1, gamma)
         print("M1 = ", M1)
-        M2 = math.sqrt( ((gamma - 1) * M1 ** 2 + 2) / (2 * gamma * M1 ** 2 - (gamma - 1)) )
+        M2 = normalShock.getM2(M1, gamma)
         print("M2 = ", M2)
-        p2_p1 = (2 * gamma * M1 ** 2 - (gamma - 1)) / (gamma + 1)
+        p2_p1 = normalShock.getP2_P1(M1, gamma)
         print("P2/P1 = ", p2_p1)
-        rho2_rho1 = ((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)
+        rho2_rho1 = normalShock.getRho2_Rho1(M1, gamma)
         print("rho2/rho1 = ", rho2_rho1)
-        p02_p01 = ((((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)) ** (gamma / (gamma - 1))) * (((gamma + 1) / (2 * gamma * M1 ** 2 - (gamma - 1))) ** (1 / (gamma - 1)))
+        p02_p01 = normalShock.getP02_P01(M1, gamma)
         print("P02/P01 = ", p02_p01)
     if choice == 6:
-        # FIX
         p02_p01 = float(input("P02/P01 = "))
-        M1_sols = sympy.solve(p02_p01 - ((((gamma + 1) * x ** 2) / ((gamma - 1) * x ** 2 + 2)) ** (gamma / (gamma - 1))) * (((gamma + 1) / (2 * gamma * x ** 2 - (gamma - 1))) ** (1 / (gamma - 1))), "x")
-        M1 = M1_sols
+        M1 = normalShock.getM1fromP0R(p02_p01, gamma)
         print("M1 = ", M1)
-        M2 = math.sqrt( ((gamma - 1) * M1 ** 2 + 2) / (2 * gamma * M1 ** 2 - (gamma - 1)) )
+        M2 = normalShock.getM2(M1, gamma)
         print("M2 = ", M2)
-        p2_p1 = (2 * gamma * M1 ** 2 - (gamma - 1)) / (gamma + 1)
+        p2_p1 = normalShock.getP2_P1(M1, gamma)
         print("P2/P1 = ", p2_p1)
-        rho2_rho1 = ((gamma + 1) * M1 ** 2) / ((gamma - 1) * M1 ** 2 + 2)
+        rho2_rho1 = normalShock.getRho2_Rho1(M1, gamma)
         print("rho2/rho1 = ", rho2_rho1)
-        t2_t1 = ((2 * gamma * M1 ** 2 - (gamma - 1)) * ((gamma - 1) * M1 ** 2 + 2)) / ((gamma + 1) ** 2 * M1 ** 2)
+        t2_t1 = normalShock.getT2_T1(M1, gamma)
         print("T2/T1 = ", t2_t1)
+
+if relation == 3:
+    M1 = float(input("M1 = "))
+    a = float(input("turn angle (deg) = "))
+
+if relation == 4:
+    print('Here are possible inputs:\n1. M\n2. t/t*\n3. p/p*\n4. p0/p0*\n5. u/u*\n6. 4fL*/D')
+    choice = int(input("\nWhich property do you already know? Enter a number: "))
+
+    if choice == 1:
+        M = float(input("M = "))
+        PR = 4
+        print(fanno.getMfromPR(PR, gamma))
+        P0R = 4
+        print(fanno.getMfromP0R(P0R, gamma))
