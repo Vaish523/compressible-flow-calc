@@ -7,12 +7,12 @@ import numpy
 from isentropic import Isentropic
 from normalShock import NormalShock
 from fanno import Fanno
-#from rayleigh import Rayleigh
+from rayleigh import Rayleigh
 
 isentropic = Isentropic
 normalShock = NormalShock
 fanno = Fanno
-#rayleigh = Rayleigh
+rayleigh = Rayleigh
 
 gamma = float(input("Ratio of specific heats: ")) # ratio of specific heats
 
@@ -206,6 +206,79 @@ if relation == 4:
         fric = fanno.getFric(M, gamma)
         print("4fL*/D = ", fric)
 
+    if choice == 2:
+        t_tstar = float(input("t/t* = "))
+        if t_tstar >= (gamma + 1) / 2:
+            print("error: t/t* must be less than ", (gamma + 1) / 2)
+        else:
+            M = fanno.getMfromTR(t_tstar, gamma)
+            print("M = ", M)
+            p_pstar = fanno.getPR(M, gamma)
+            print("p/p* = ", p_pstar)
+            p0_p0star = fanno.getP0R(M, gamma)
+            print("p0/p0* = ", p0_p0star)
+            u_ustar = fanno.getUR(M, gamma)
+            print("u/u* = ", u_ustar)
+            fric = fanno.getFric(M, gamma)
+            print("4fL*/D = ", fric)
+
+    if choice == 3:
+        p_pstar = float(input("p/p* = "))
+        M = fanno.getMfromPR(p_pstar, gamma)
+        print("M = ", M)
+        t_tstar = fanno.getTR(M, gamma)
+        print("t0/t0* = ", t_tstar)
+        p0_p0star = fanno.getP0R(M, gamma)
+        print("p0/p0* = ", p0_p0star)
+        u_ustar = fanno.getUR(M, gamma)
+        print("u/u* = ", u_ustar)
+        fric = fanno.getFric(M, gamma)
+        print("4fL*/D = ", fric)
+
+    if choice == 4:
+        p0_p0star = float(input("p0/p0* (sub) = "))
+        M = fanno.getMfromP0Rsub(p0_p0star, gamma)
+        print("M = ", M)
+        p_pstar = fanno.getPR(M, gamma)
+        print("p/p* = ", p_pstar)
+        t_tstar = fanno.getTR(M, gamma)
+        print("t0/t0* = ", t_tstar)
+        u_ustar = fanno.getUR(M, gamma)
+        print("u/u* = ", u_ustar)
+        fric = fanno.getFric(M, gamma)
+        print("4fL*/D = ", fric)
+
+    if choice == 5:
+        p0_p0star = float(input("p0/p0* (sup) = "))
+        M = fanno.getMfromP0Rsup(p0_p0star, gamma)
+        print("M = ", M)
+        p_pstar = fanno.getPR(M, gamma)
+        print("p/p* = ", p_pstar)
+        t_tstar = fanno.getTR(M, gamma)
+        print("t0/t0* = ", t_tstar)
+        u_ustar = fanno.getUR(M, gamma)
+        print("u/u* = ", u_ustar)
+        fric = fanno.getFric(M, gamma)
+        print("4fL*/D = ", fric)
+
+if relation == 5:
+    print('Here are possible inputs:\n1. M\n2. t0/t0* (sub)\n3. t0/t0* (sup)\n4. t/t* (below Tmax)\n5. t/t* (above Tmax)\n6. p/p*\n7. p0/p0* (sub)\n8. p0/p0* (sup)\n9. u/u*')
+    choice = int(input("\nWhich property do you already know? Enter a number: "))
+
+    if choice == 1:
+        M = float(input("M = "))
+        t_tstar = rayleigh.getTR(M, gamma)
+        print("t/t* = ", t_tstar)
+        t0_t0star = rayleigh.getT0R(M, gamma)
+        print("t0/t0* = ", t0_t0star)
+        p_pstar = rayleigh.getPR(M, gamma)
+        print("p/p* = ", p_pstar)
+        p0_p0star = rayleigh.getP0R(M, gamma)
+        print("p0/p0* = ", p0_p0star)
+        u_ustar = rayleigh.getUR(M, gamma)
+        print("u/u* = ", u_ustar)
+
+    
     if choice == 2:
         t_tstar = float(input("t/t* = "))
         if t_tstar >= (gamma + 1) / 2:
