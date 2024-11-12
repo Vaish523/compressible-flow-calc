@@ -8,15 +8,15 @@ from charPoint import charPoint
 equations = Equations
 
 ## INPUTS ##
-numLines = 6
+numLines = 2
 numPoints = int(numLines + numLines * (numLines + 1) / 2)
 gamma = 1.4
 R = 287 # J/kgK
-P_e = 101.325 * 10 ** 3 # kPa
-P_c = 1/ 0.01445 * P_e # kPa
-T_c = 1000 # K
-r_t = 1 # m
-initialFlowAngle = 3 # deg
+P_e = 101.325 * 10 ** 3 # Pa
+P_c = 300 * 10 ** 3 # Pa
+T_c = 250 # K
+r_t = 0.5 # m
+initialFlowAngle = 0.1 # deg
 
 engine = rocketEngine(P_c, T_c, P_e, gamma, R, r_t, numPoints, numLines)
 M_e = engine.getMachExit(engine.P_c, engine.P_e, engine.gamma)
@@ -261,4 +261,22 @@ np.savetxt('EnginePoints.csv', data, delimiter=',')
 plt.scatter(x_points, y_points)
 plt.xlim(0, max(x_points))
 plt.ylim(0, max(x_points))
+plt.show()
+
+wallPointsX = [0]
+wallPointsY = [r_t]
+
+for index in range(numPoints):
+    if points[index].isWallPoint:
+        wallPointsX.append(points[index].x)
+        wallPointsY.append(points[index].y)
+
+
+dataWall = np.asarray([wallPointsX, 
+        wallPointsY]).transpose()
+
+np.savetxt('EngineWallPoints.csv', dataWall, delimiter=',')
+plt.scatter(wallPointsX, wallPointsY)
+plt.xlim(0, max(wallPointsX))
+plt.ylim(0, max(wallPointsX))
 plt.show()

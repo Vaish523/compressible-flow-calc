@@ -38,9 +38,8 @@ class Fanno:
                     M_guess += 0.00001
         return M_guess
     
-    def getMfromP0R(P0R, gamma):
+    def getMfromP0Rsub(P0R, gamma):
         Msub_guess = 0.001
-        Msup_guess = 1.001
         tol = 0.0001
         while Msub_guess < 1:
             P0Rsub_test = 1 / Msub_guess * ((2 / (gamma + 1)) * (1 + (gamma - 1) / 2 * Msub_guess ** 2)) ** ((gamma + 1) / (2 * gamma - 2))
@@ -55,4 +54,24 @@ class Fanno:
                     return Msub_guess
                 else:
                     Msub_guess += 0.00001
+            print(Msub_guess)
         return Msub_guess
+    
+    def getMfromP0Rsup(P0R, gamma):
+        Msup_guess = 1.001
+        tol = 0.0001
+        while Msup_guess > 1:
+            P0Rsup_test = 1 / Msup_guess * ((2 / (gamma + 1)) * (1 + (gamma - 1) / 2 * Msup_guess ** 2)) ** ((gamma + 1) / (2 * gamma - 2))
+            diff_sup = P0R - P0Rsup_test
+            if diff_sup > 0:
+                if diff_sup < tol:
+                    return Msup_guess
+                else:
+                    Msup_guess += 0.00001
+            if diff_sup < 0:
+                if abs(diff_sup) < tol:
+                    return Msup_guess
+                else:
+                    Msup_guess += 0.00001
+        
+        return Msup_guess
