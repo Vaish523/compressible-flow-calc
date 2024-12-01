@@ -8,15 +8,15 @@ from charPoint import charPoint
 equations = Equations
 
 ## INPUTS ##
-numLines = 2
+numLines = 3
 numPoints = int(numLines + numLines * (numLines + 1) / 2)
 gamma = 1.4
 R = 287 # J/kgK
 P_e = 101.325 * 10 ** 3 # Pa
-P_c = 300 * 10 ** 3 # Pa
+P_c = P_e / 0.01 # Pa
 T_c = 250 # K
 r_t = 0.5 # m
-initialFlowAngle = 0.1 # deg
+initialFlowAngle = 0.5 # deg
 
 engine = rocketEngine(P_c, T_c, P_e, gamma, R, r_t, numPoints, numLines)
 M_e = engine.getMachExit(engine.P_c, engine.P_e, engine.gamma)

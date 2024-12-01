@@ -1,5 +1,3 @@
-# isentropic relations
-# t/t0 = (1 + (k-1)/2 * M^2)^-1
 import math
 import sympy
 from sympy.abc import x

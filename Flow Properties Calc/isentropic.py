@@ -21,8 +21,8 @@ class Isentropic:
     
     def getNu(M, gamma):
         if M >= 1:
-            nu = 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) + math.atan(math.sqrt(M ** 2 - 1)))
-            return abs(nu)
+            nu = 1 * (math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) - math.atan(math.sqrt(M ** 2 - 1)))
+            return nu
         else:
             return "N/A"
     
