@@ -8,21 +8,22 @@ from charPoint import charPoint
 equations = Equations
 
 ## INPUTS ##
-numLines = 3
+numLines = 50
 numPoints = int(numLines + numLines * (numLines + 1) / 2)
 gamma = 1.4
 R = 287 # J/kgK
-P_e = 101.325 * 10 ** 3 # Pa
-P_c = P_e / 0.01 # Pa
-T_c = 250 # K
-r_t = 0.5 # m
-initialFlowAngle = 0.5 # deg
+P_e = 101352.932 # Pa
+P_c = 582353.305 # Pa
+T_c = 1500 # K
+r_t = 1 # m
+initialFlowAngle = 5.18 # deg
 
 engine = rocketEngine(P_c, T_c, P_e, gamma, R, r_t, numPoints, numLines)
 M_e = engine.getMachExit(engine.P_c, engine.P_e, engine.gamma)
 nu_e = equations.getPMAngle(M_e, gamma)
 max_theta = nu_e / 2
 points = []
+print("M_e = ", M_e)
 print(max_theta)
 thetaInterpolation = equations.interpolateTheta(initialFlowAngle, max_theta, numLines)
 print(thetaInterpolation)
@@ -261,7 +262,10 @@ np.savetxt('EnginePoints.csv', data, delimiter=',')
 plt.scatter(x_points, y_points)
 plt.xlim(0, max(x_points))
 plt.ylim(0, max(x_points))
+ax = plt.gca()
+ax.set_aspect('equal', adjustable='box')
 plt.show()
+#plt.show()
 
 wallPointsX = [0]
 wallPointsY = [r_t]
@@ -275,8 +279,11 @@ for index in range(numPoints):
 dataWall = np.asarray([wallPointsX, 
         wallPointsY]).transpose()
 
-np.savetxt('EngineWallPoints.csv', dataWall, delimiter=',')
+np.savetxt('EngineWallPoints2.csv', dataWall, delimiter=',')
 plt.scatter(wallPointsX, wallPointsY)
 plt.xlim(0, max(wallPointsX))
-plt.ylim(0, max(wallPointsX))
+plt.ylim(0, max(wallPointsY))
+ax = plt.gca()
+ax.set_aspect('equal', adjustable='box')
 plt.show()
+#plt.show()

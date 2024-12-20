@@ -2,7 +2,7 @@
 import math
 class Equations:
     def getPMAngle(M, gamma):
-        nu = 180 / math.pi * (-1 * math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) + math.atan(math.sqrt(M ** 2 - 1)))
+        nu = 180 / math.pi * (math.sqrt((gamma + 1) / (gamma - 1)) * math.atan(math.sqrt((gamma - 1) / (gamma + 1) * (M ** 2 - 1))) - math.atan(math.sqrt(M ** 2 - 1)))
         return abs(nu)
     
     def getMachFromPM(nu, gamma):
