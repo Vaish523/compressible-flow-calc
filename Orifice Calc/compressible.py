@@ -65,7 +65,7 @@ def main():
     diameter = 0.05  # Diameter of the orifice (m)
     P1 = 500000  # Inlet pressure (Pa)
     P2 = 100000  # Outlet pressure (Pa)
-    fluid = "Helium"  # Fluid name (e.g., "Air", "Water", etc.)
+    fluid = "Ammonia"  # Fluid name (e.g., "Air", "Water", etc.)
     T1 = 300  # Inlet temperature (K)
     
     # Calculate the orifice area (A = π * (d/2)^2)
