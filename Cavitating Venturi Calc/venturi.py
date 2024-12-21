@@ -48,7 +48,7 @@ def calculate_venturi_parameters(chamber_pressure, dp_injector, line_losses, cav
     # Get fluid density and vapor pressure at inlet conditions
     density = PropsSI('D', 'P', venturi_inlet_pressure_pa, 'T', temperature, fluid)  # kg/m^3
     vapor_pressure = PropsSI('P', 'Q', 0, 'T', temperature, fluid)  # Pa
-    print(vapor_pressure)
+    #print(vapor_pressure)
 
     # Required CdA (discharge coefficient * area)
     required_CdA = fuel_flow_rate / (Cd * math.sqrt(2 * density * (venturi_inlet_pressure_pa - vapor_pressure)))
@@ -111,7 +111,7 @@ def calculate_oxidizer_venturi(chamber_pressure, dp_injector, line_losses, cavit
     # Get fluid density and vapor pressure at inlet conditions
     density = PropsSI('D', 'P', venturi_inlet_pressure_pa, 'T', temperature, fluid)  # kg/m^3
     vapor_pressure = PropsSI('P', 'Q', 0, 'T', temperature, fluid)  # Pa
-    print(vapor_pressure)
+    #print(vapor_pressure)
 
     # Required CdA (discharge coefficient * area)
     required_CdA = oxidizer_flow_rate / (Cd * math.sqrt(2 * density * (venturi_inlet_pressure_pa - vapor_pressure)))
@@ -142,7 +142,7 @@ def calculate_oxidizer_venturi(chamber_pressure, dp_injector, line_losses, cavit
 chamber_pressure = 500.0  # Chamber pressure in psi (e.g., 70 bar)
 dp_injector = 0.2 * chamber_pressure  # Injector pressure drop (20% of chamber pressure)
 line_losses = 0.05 * chamber_pressure  # Line losses (5% of chamber pressure)
-cavitation_ratio = 0.85  # Venturi pressure ratio for cavitation
+cavitation_ratio = 0.6  # Venturi pressure ratio for cavitation
 Cd = 0.95  # Discharge coefficient
 thrust = 4448.0  # Required thrust in N
 isp = 346  # Specific impulse in seconds
